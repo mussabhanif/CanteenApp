@@ -2,9 +2,8 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger, useSidebar } from '../components/ui/sidebar'
 import AppIcon from '../../../../resources/icon.png'
 import { Home, LogOut, Package, User, Users2Icon } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Toaster } from "@/components/ui/toaster"
-import { renderAvatarFallback } from '../hooks/helper'
+import BaseHeader from '../components/BaseHeader'
 
 const items = [
   {
@@ -27,7 +26,7 @@ const items = [
     path: '/orders',
     icon: Users2Icon
   },
-]
+];
 const AppSidebar = ({ onLogout }) => {
   const location = useLocation();
   return (
@@ -77,23 +76,12 @@ const MainContent = ({ user }) => {
   } = useSidebar();
   const location = useLocation();
 
-
+  const pageName = items?.find(i => i?.path === location?.pathname)?.name
   return (
     <main style={{ maxWidth: `calc(100vw - ${(isMobile || !open) ? '0rem' : '16rem'})` }} className='ml-auto px-8 w-full transition-transform h-screen overflow-y-scroll'>
-      <header className='py-4 flex items-center justify-between'>
-        <div className="flex items-center">
-        <SidebarTrigger className='mt-1'/>
-        <h3 className='text-xl font-semibold ml-2'>{items?.find(i => i?.path === location?.pathname)?.name || items[0]?.name}</h3>
-        </div>
-        <Avatar className='cursor-pointer '>
-          <AvatarImage src={user?.avatar} />
-          <AvatarFallback className='bg-primary text-white select-none'>
-            {renderAvatarFallback(user.name || 'Admin')}
-          </AvatarFallback>
-        </Avatar>
-      </header>
+      {pageName && <BaseHeader pageName={pageName} user={user} />}
       <Outlet />
-      <Toaster />
+      {location.pathname != '/dashboard' && <Toaster />}
     </main>
   )
 }

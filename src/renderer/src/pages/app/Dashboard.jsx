@@ -4,11 +4,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PageLoading from "../../components/PageLoading";
 import { ChartContainer } from "@/components/ui/chart";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import { currencyFormat } from "../../hooks/helper";
 
 export function Dashboard({ toast }) {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
-  //  const [chartData, setChartData] = useState([]);
+   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -16,7 +17,7 @@ export function Dashboard({ toast }) {
         const response = await AdminApi.getStats();
         setStats(response.data);
         if (response.data.monthly_revenue) {
-          // setChartData(response.data.monthly_revenue);
+          setChartData(response.data.monthly_revenue);
         }
       } catch (err) {
         toast({
@@ -32,20 +33,20 @@ export function Dashboard({ toast }) {
 
   if (loading) return <PageLoading loading={loading} />;
 
-  const chartData = [
-    { month: "January", revenue: 5000 },
-    { month: "February", revenue: 7200 },
-    { month: "March", revenue: 6500 },
-    { month: "April", revenue: 8900 },
-    { month: "May", revenue: 10500 },
-    { month: "June", revenue: 7600 },
-    { month: "July", revenue: 9800 },
-    { month: "August", revenue: 11300 },
-    { month: "September", revenue: 9200 },
-    { month: "October", revenue: 8700 },
-    { month: "November", revenue: 9900 },
-    { month: "December", revenue: 12500 },
-];
+//   const chartData = [
+//     { month: "January", revenue: 5000 },
+//     { month: "February", revenue: 7200 },
+//     { month: "March", revenue: 6500 },
+//     { month: "April", revenue: 8900 },
+//     { month: "May", revenue: 10500 },
+//     { month: "June", revenue: 7600 },
+//     { month: "July", revenue: 9800 },
+//     { month: "August", revenue: 11300 },
+//     { month: "September", revenue: 9200 },
+//     { month: "October", revenue: 8700 },
+//     { month: "November", revenue: 9900 },
+//     { month: "December", revenue: 12500 },
+// ];
 
   const chartConfig = {
     revenue: {
@@ -62,7 +63,7 @@ export function Dashboard({ toast }) {
             <CardTitle>Total Revenue</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">${stats.total_revenue}</p>
+            <p className="text-2xl font-bold">{currencyFormat(stats.total_revenue)}</p>
           </CardContent>
         </Card>
         <Card>

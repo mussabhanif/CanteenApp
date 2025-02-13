@@ -1,6 +1,10 @@
 import axios from "axios";
+import { toast } from "../hooks/use-toast";
 
-export const BASE_URL = "http://localhost:8000/api";
+// export const STORAGE_URL = "http://localhost:8000"
+export const STORAGE_URL = "https://canteen.karimapps.com"
+// export const BASE_URL = "http://localhost:8000/api";
+export const BASE_URL = "https://canteen.karimapps.com/api";
 
 const client = axios.create({
   baseURL: BASE_URL,
@@ -22,10 +26,17 @@ client.interceptors.request.use(
 client.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error("API Error:", error.response?.data || error.message);
-    // alert("API Error:", error.response?.data || error.message);
+    const errorMessage = error.response?.data?.message || error.message || 'Something went wrong';
+    console.error("API Error:", errorMessage);
+
+    toast({
+      variant: 'destructive',
+      description: errorMessage === 'Unauthenticated.' ? 'Session Expired. Please login again' : errorMessage
+    });
+
     return Promise.reject(error);
   }
 );
+
 
 export default client;

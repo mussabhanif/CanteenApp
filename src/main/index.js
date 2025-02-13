@@ -70,5 +70,32 @@ app.on('window-all-closed', () => {
   }
 })
 
+// ipcMain.on("print-receipt", (event, receiptHTML) => {
+//   const printWindow = new BrowserWindow({
+//     width: 300,
+//     height: 300,
+//     show: false,
+//     webPreferences: {
+//       nodeIntegration: true,
+//     },
+//   });
+
+//   printWindow.loadURL(`data:text/html;charset=utf-8,${encodeURIComponent(receiptHTML)}`);
+
+//   printWindow.webContents.on("did-finish-load", () => {
+//     printWindow.webContents.print({
+//       silent: false,
+//       printBackground: true,
+//     });
+
+//     // setTimeout(() => {
+//     //   printWindow.close();
+//     // }, 2000); // Close after printing
+//   });
+// });
+
+
+
+
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

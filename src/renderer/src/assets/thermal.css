@@ -1,0 +1,11 @@
+@media print {
+  /* Hide everything EXCEPT the receipt */
+  body * {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 80mm !important;
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+}
